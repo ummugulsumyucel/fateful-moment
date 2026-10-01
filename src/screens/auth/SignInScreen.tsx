@@ -105,41 +105,34 @@ export default function SignInScreen({
     onSignIn?.(email.trim(), password);
   }
 
-  function scrollToSignInButton() {
-    if (Platform.OS !== 'ios') return;
-
-    setTimeout(() => {
-      signInButtonRef.current?.measureLayout(
-        scrollViewRef.current as any,
-        (_x, y, _w, h) => {
-          scrollViewRef.current?.scrollTo({
-            y: y + h + 100,
-            animated: true,
-          });
-        },
-        () => {},
-      );
-    }, 150);
-  }
+function scrollToSignInButton() {
+  setTimeout(() => {
+    scrollViewRef.current?.scrollTo({
+      y: 180,
+      animated: true,
+    });
+  }, 250);
+}
 
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar barStyle="light-content" backgroundColor={colors.background} />
 
-      <KeyboardAvoidingView
-        style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}
-      >
+<KeyboardAvoidingView
+  style={styles.flex}
+  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+  keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}
+>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <ScrollView
-            ref={scrollViewRef}
-            style={styles.flex}
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-          >
+        <ScrollView
+  ref={scrollViewRef}
+  style={styles.flex}
+  contentContainerStyle={styles.scrollContent}
+  keyboardShouldPersistTaps="handled"
+  keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+  showsVerticalScrollIndicator={false}
+  bounces={false}
+>
             <View style={styles.topRow}>
               <BackButton onPress={onBack} />
             </View>

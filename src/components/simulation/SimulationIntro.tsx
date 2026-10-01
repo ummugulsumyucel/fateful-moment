@@ -31,12 +31,10 @@ export default function SimulationIntro({
   onSkipForward,
 }: Props) {
   const insets = useSafeAreaInsets();
-  // Android'de status bar yüksekliğini topBar'a ekle
   const topBarHeight = 48 + (Platform.OS === 'android' ? insets.top : 0);
 
   return (
     <View style={styles.root}>
-      {/* Top bar with player widget */}
       <View style={[styles.topBar, { height: topBarHeight }]}>
         <View style={[styles.topPlayer, { top: Platform.OS === 'android' ? insets.top : 0 }]}>
           <TopPlayer
@@ -47,13 +45,10 @@ export default function SimulationIntro({
         </View>
       </View>
 
-      {/* Centred scenario briefing card */}
       <View style={[styles.content, { paddingTop: topBarHeight + 12 }]}>
         <View style={styles.simContainer}>
-          {/* Background image */}
           <Image source={BG_IMAGE} style={styles.backgroundImage} resizeMode="cover" />
 
-          {/* Gradient overlay — darkens the bottom half so text is readable */}
           <View pointerEvents="none" style={styles.gradientContainer}>
             <Svg
               width="100%"
@@ -73,10 +68,7 @@ export default function SimulationIntro({
             </Svg>
           </View>
 
-          {/* Border overlay rendered on top so it's not covered by the image */}
           <View pointerEvents="none" style={styles.cardBorder} />
-
-          {/* Text content + start button */}
           <View style={styles.textContainer}>
             <View style={styles.textContent}>
               <View style={styles.scenarioHeading}>

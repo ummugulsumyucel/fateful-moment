@@ -55,6 +55,7 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
 
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     const subscription = Keyboard.addListener('keyboardDidHide', () => {
@@ -101,6 +102,15 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
     pwRules.lowercase &&
     pwRules.digit;
 
+function scrollToFocusedField() {
+  setTimeout(() => {
+    scrollViewRef.current?.scrollTo({
+      y: 180,
+      animated: true,
+    });
+  }, 250);
+}
+
   return (
     <SafeAreaView style={styles.root}>
       <StatusBar barStyle="light-content" backgroundColor={colors.background} />
@@ -110,35 +120,34 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}
       >
-        <ScrollView
-          style={styles.flex}
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-        >
-          {/* ── Back button ── */}
+            <ScrollView
+              ref={scrollViewRef}
+              style={styles.flex}
+              contentContainerStyle={styles.scrollContent}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="none"
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+            >
+         
           <View style={styles.topRow}>
             <BackButton onPress={onBack} />
           </View>
 
-          {/* ── Logo ── */}
           <View style={styles.logoWrapper}>
             <AppLogo />
           </View>
 
-          {/* ── Title ── */}
           <Text style={styles.title}>
             Create your Fateful Moment{'\n'}Account
           </Text>
 
-          {/* ── Form ── */}
           <View style={styles.form}>
-            {/* Name */}
             <TextInputField
               value={name}
               onChangeText={handleNameChange}
               onBlur={handleNameBlur}
+              onFocus={scrollToFocusedField}
               placeholder="Full Name"
               autoCapitalize="words"
               autoComplete="name"
@@ -148,13 +157,13 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
               error={nameError}
             />
 
-            {/* Email */}
             <View style={styles.fieldGap}>
               <TextInputField
                 inputRef={emailRef}
                 value={email}
                 onChangeText={handleEmailChange}
                 onBlur={handleEmailBlur}
+                onFocus={scrollToFocusedField}
                 placeholder="Your email address"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -166,7 +175,6 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
               />
             </View>
 
-            {/* Password */}
             <View style={styles.fieldGap}>
               <TextInputField
                 inputRef={passwordRef}
@@ -175,6 +183,7 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
                   setPassword(text);
                   if (!pwTouched && text.length > 0) setPwTouched(true);
                 }}
+                onFocus={scrollToFocusedField}
                 placeholder="Your password"
                 secureTextEntry={!showPw}
                 autoComplete="password-new"
@@ -189,7 +198,6 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
               ) : undefined
             }
               />
-
               {pwTouched && (
                 <View style={styles.rulesContainer}>
                   <PasswordRule label="Must be at least 8 characters long" met={pwRules.minLength} />
@@ -201,7 +209,6 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
             </View>
           </View>
 
-          {/* ── Sign Up button ── */}
           <View style={styles.buttonRow}>
             <SignUpButton
               disabled={!isFormValid}
@@ -209,7 +216,6 @@ export default function CreateAccountScreen({ onBack, onSignInPress, onSignUp }:
             />
           </View>
 
-          {/* ── Sign in footer ── */}
           <Text style={styles.footerText}>
             Already have an account?{' '}
             <Text style={styles.footerLink} onPress={onSignInPress}>

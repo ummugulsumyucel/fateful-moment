@@ -20,11 +20,6 @@
       },
       "predictiveBackGestureEnabled": false,
       "softwareKeyboardLayoutMode": "resize",
-      "navigationBar": {
-        "backgroundColor": "#020618",
-        "barStyle": "dark-content",
-        "visible": false
-      },
       "package": "com.gulsummm.fatfulmoment"
     },
     "web": {

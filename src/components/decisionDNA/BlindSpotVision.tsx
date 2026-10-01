@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { Target } from 'lucide-react-native';
 
@@ -36,7 +36,7 @@ card: {
   borderColor: '#FB2C3633',
   backgroundColor: '#FB2C360D',
   padding: 12,
-  paddingBottom: 46,
+  paddingBottom: Platform.OS === 'android' ? 12 : 46,
   gap: spacing.sm,
 },
 
